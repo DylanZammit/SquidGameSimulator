@@ -1,4 +1,4 @@
-from entities.games import RedLightGreenLight, SugarHoneycombs, TugOfWar, Marbles, GameShow
+from entities.games import RedLightGreenLight, SugarHoneycombs, TugOfWar, Marbles, GameShow, GlassStones
 from utils import gen_players
 
 
@@ -10,7 +10,7 @@ def main(n_players: int = 456):
         SugarHoneycombs,
         TugOfWar,
         Marbles,
-        # GlassStones,
+        GlassStones,
         # SquidGame,
     ]
 
