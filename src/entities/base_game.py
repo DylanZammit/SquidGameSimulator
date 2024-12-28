@@ -29,7 +29,7 @@ class Game:
 
     @property
     def survival_ratio(self) -> float:
-        return len(self.eliminated) / len(self.players)
+        return 1 - len(self.eliminated) / len(self.players)
 
     def play(self) -> None:
         raise NotImplementedError
