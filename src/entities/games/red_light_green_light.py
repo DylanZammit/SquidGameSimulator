@@ -8,7 +8,6 @@ from entities.player import Player
 
 class RedLightGreenLight(Game):
     def __init__(self, players: Set[Player], time_limit_sec: int = 300, n_stops: int = 20, distance: int = 100):
-        # TODO: nstops not working
         super().__init__(players=players)
         self.n_stops = n_stops
         self.walking_window_sec = time_limit_sec / n_stops / 2  # half of the time is spent standing still
@@ -16,6 +15,7 @@ class RedLightGreenLight(Game):
         self.distance = distance
 
     def play(self):
+        scale_factor = 0.1
         i = 0
         while len(self.active) and i < self.n_stops:
             active_players = self.active.copy()
@@ -23,8 +23,10 @@ class RedLightGreenLight(Game):
                 if self.player_distance[player] > self.distance:
                     continue
                 self.player_distance[player] += player.walking_speed * self.walking_window_sec
-                sf = 0.1
-                time_stood_still = np.random.gamma(scale=1/sf, shape=player.avg_player_standing_still_sec * sf)
+                time_stood_still = np.random.gamma(
+                    scale=1/scale_factor,
+                    shape=player.avg_player_standing_still_sec * scale_factor
+                )
                 print(time_stood_still, self.still_window_sec)
                 if time_stood_still < self.still_window_sec:
                     self.eliminated.add(player)
