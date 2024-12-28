@@ -13,7 +13,12 @@ def gen_players(n_players: int) -> Set[Player]:
     avg_standing_still_sec = 30
 
     walking_speeds = list(np.random.randn(n_players) * std_walking_speed_mps + avg_walking_speed_mps)
-    avg_player_standing_still_sec = np.random.exponential(scale=avg_standing_still_sec, size=n_players)
+    scale_factor = 10
+    avg_player_standing_still_sec = np.random.gamma(
+        shape=avg_standing_still_sec * scale_factor,
+        scale=1 / scale_factor,
+        size=n_players
+    )
 
     return {
         Player(

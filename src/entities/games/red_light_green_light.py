@@ -7,16 +7,14 @@ from entities.player import Player
 
 
 class RedLightGreenLight(Game):
-    def __init__(self, players: Set[Player], n_stops: int = 20, distance: int = 100):
+    def __init__(self, players: Set[Player], time_limit_sec: int = 300, n_stops: int = 20, distance: int = 100):
         # TODO: nstops not working
         super().__init__(players=players)
         self.n_stops = n_stops
-        self.walking_window_sec = distance / n_stops / 2  # half of the time is spent standing still
+        self.walking_window_sec = time_limit_sec / n_stops / 2  # half of the time is spent standing still
         self.still_window_sec = self.walking_window_sec
         self.distance = distance
 
-    # I don't technically /have/ to play it out step by step
-    # But it would be cool for simulation purposes
     def play(self):
         i = 0
         while len(self.active) and i < self.n_stops:
@@ -25,7 +23,9 @@ class RedLightGreenLight(Game):
                 if self.player_distance[player] > self.distance:
                     continue
                 self.player_distance[player] += player.walking_speed * self.walking_window_sec
-                time_stood_still = np.random.exponential(scale=player.avg_player_standing_still_sec)
+                sf = 0.1
+                time_stood_still = np.random.gamma(scale=1/sf, shape=player.avg_player_standing_still_sec * sf)
+                print(time_stood_still, self.still_window_sec)
                 if time_stood_still < self.still_window_sec:
                     self.eliminated.add(player)
                     self.active.remove(player)
