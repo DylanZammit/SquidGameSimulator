@@ -27,8 +27,10 @@ def main(n_players: int = 456, n_sims: int = 10_000, verbose: bool = False):
             print(game_show)
             for i, g in enumerate(game_show.games_played, start=1):
                 print(f'Game {i}) {g}')
-    plt.hist(game_show_survivor_count, bins=100, density=True)
-    plt.show()
+
+    # plt.hist(game_show_survivor_count, bins=100, density=True)
+    # plt.show()
+    game_show.games_played[0].plot_game()
 
 if __name__ == '__main__':
-    main()
+    main(n_sims=1, verbose=True)

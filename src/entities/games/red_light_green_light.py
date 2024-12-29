@@ -1,6 +1,7 @@
 from typing import Set
 
 import numpy as np
+from matplotlib import pyplot as plt
 
 from entities.base_game import Game
 from entities.player import Player
@@ -20,13 +21,43 @@ class RedLightGreenLight(Game):
         while len(self.active) and i < self.n_stops:
             active_players = self.active.copy()
             for player in active_players:
-                if self.player_distance[player] > self.distance:
+                if self.player_distance[player] >= self.distance:
                     continue
-                self.player_distance[player] += player.walking_speed * self.walking_window_sec
                 time_stood_still = np.random.gamma(
                     scale=1 / scale_factor,
                     shape=player.avg_player_standing_still_sec * scale_factor
                 )
                 if time_stood_still < self.still_window_sec:
                     self.eliminate(player)
+                    continue
+                next_position = self.player_distance[player] + player.walking_speed * self.walking_window_sec
+                self.player_distance[player] = min(self.distance, next_position)
+
+            # self.plot_game()
             i += 1
+
+        slow_players = [player for player in self.active if self.player_distance[player] < self.distance]
+        self.eliminate(slow_players)
+
+
+    def plot_game(self):
+        x_coords_alive = []
+        y_coords_alive = []
+
+        x_coords_dead = []
+        y_coords_dead = []
+        for player in self.players:
+            player_x = self.player_distance[player]
+            player_y = player.id
+
+            if player in self.active:
+                x_coords_alive.append(player_x)
+                y_coords_alive.append(player_y)
+            else:
+                x_coords_dead.append(player_x)
+                y_coords_dead.append(player_y)
+
+        plt.scatter(x_coords_alive, y_coords_alive, c='g', s=10, marker='o')
+        plt.scatter(x_coords_dead, y_coords_dead, c='r', s=10, marker='X')
+        plt.xlim([0, 100])
+        plt.show()
