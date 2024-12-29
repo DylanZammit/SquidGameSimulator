@@ -24,11 +24,9 @@ class RedLightGreenLight(Game):
                     continue
                 self.player_distance[player] += player.walking_speed * self.walking_window_sec
                 time_stood_still = np.random.gamma(
-                    scale=1/scale_factor,
+                    scale=1 / scale_factor,
                     shape=player.avg_player_standing_still_sec * scale_factor
                 )
-                print(time_stood_still, self.still_window_sec)
                 if time_stood_still < self.still_window_sec:
-                    self.eliminated.add(player)
-                    self.active.remove(player)
+                    self.eliminate(player)
             i += 1

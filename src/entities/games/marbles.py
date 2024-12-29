@@ -14,6 +14,5 @@ class Marbles(Game):
         shuffled_players = list(self.players)
         np.random.shuffle(shuffled_players)
         n_eliminated = self.num_players // 2 + (1 if self.num_players % 2 == 1 else 0)
-        self.eliminated = set(shuffled_players[:n_eliminated])
-        self.active = set(shuffled_players[n_eliminated:])
+        self.eliminate(set(shuffled_players[:n_eliminated]))
 

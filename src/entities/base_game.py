@@ -1,4 +1,4 @@
-from typing import Set
+from typing import Set, Iterable, Union
 
 from entities.player import Player
 
@@ -30,6 +30,17 @@ class Game:
     @property
     def survival_ratio(self) -> float:
         return 1 - len(self.eliminated) / len(self.players)
+
+    def eliminate(self, player: Union[Player, Iterable[Player]]) -> None:
+        if isinstance(player, Iterable):
+            for p in player:
+                self.eliminate(p)
+            return
+
+        assert player in self.players, 'Player not in game!'
+        assert player in self.active, 'Player not active!'
+        self.active.remove(player)
+        self.eliminated.add(player)
 
     def play(self) -> None:
         raise NotImplementedError

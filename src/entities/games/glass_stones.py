@@ -11,7 +11,7 @@ class GlassStones(Game):
         super().__init__(players=players)
         self.n_steps = n_steps
         self.time_limit_sec = time_limit_sec
-
+        self.player_eliminated_step = {}
 
     def play(self) -> None:
         shuffled_players = list(self.players)
@@ -23,9 +23,8 @@ class GlassStones(Game):
                 is_good_step = np.random.rand() < 0.5
                 curr_step += 1
                 if not is_good_step:
-                    self.active.remove(player)
-                    self.eliminated.add(player)
-                    # TODO: save player dead point
+                    self.eliminate(player)
+                    self.player_eliminated_step[player] = curr_step
                     break
 
             if curr_step == self.n_steps:

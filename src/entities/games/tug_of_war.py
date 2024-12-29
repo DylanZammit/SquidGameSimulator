@@ -33,9 +33,6 @@ class TugOfWar(Game):
     def play(self) -> None:
         for team_a, team_b in self.matchups:
             left_wins = np.random.rand() < 0.5
-
             team_loser = team_b if left_wins else team_a
-            for player in team_loser.players:
-                self.active.remove(player)
-                self.eliminated.add(player)
+            self.eliminate(team_loser.players)
 
