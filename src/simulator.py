@@ -21,7 +21,7 @@ def simulate(n_players: int = 456, n_sims: int = 10_000) -> List[GameShow]:
 
     game_shows = []
     for sim_num in range(1, n_sims + 1):
-        if sim_num % 100 == 0:
+        if sim_num % 500 == 0:
             print(f'Sim {sim_num:,} of {n_sims:,}')
         game_show = GameShow(players=players, game_list=game_list)
         game_show.play()

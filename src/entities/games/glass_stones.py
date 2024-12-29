@@ -1,5 +1,5 @@
 from typing import Set
-
+from copy import copy
 import numpy as np
 
 from entities.base_game import Game
@@ -29,5 +29,5 @@ class GlassStones(Game):
                     self.eliminate(player)
                     self.player_eliminated_step[player] = curr_step
                     break
-            self.state_hist.append(self)
+            self.state_hist.append(copy(self))
             player_num += 1

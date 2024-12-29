@@ -1,5 +1,5 @@
 from typing import Set, Union, Tuple
-
+from copy import copy
 import numpy as np
 from matplotlib import pyplot as plt
 
@@ -35,7 +35,7 @@ class RedLightGreenLight(Game):
                 next_position = self.player_distance[player] + player.walking_speed * self.walking_window_sec
                 self.player_distance[player] = min(self.distance, next_position)
 
-            self.state_hist.append(self)
+            self.state_hist.append(copy(self))
             i += 1
 
         slow_players = [player for player in self.active if self.player_distance[player] < self.distance]
