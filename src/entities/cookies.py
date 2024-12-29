@@ -3,6 +3,14 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class Cookie:
+    """
+    Class to represent a cookie. The alpha and beta parameters of the Beta Distribution
+    are used to represent the probability p of success of breaking the cookie along the demarcated lines only.
+
+    shape: name of the shape of the cooke
+    alpha: alpha parameter of the beta distribution
+    beta: beta parameter of the beta distribution
+    """
     shape: str
     alpha: float
     beta: float
