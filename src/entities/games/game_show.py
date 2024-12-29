@@ -43,12 +43,12 @@ class GameShow(Game):
             self.update_prize_pool()
 
     def __repr__(self):
-        return f'''{type(self).__name__}
-        =============================
-        {self.num_players=}, 
-        {self.num_active=}, 
-        {self.num_eliminated=}, 
-        {self.survival_ratio=:.2f}
-        {self.prize_pool=:,.0f}€
-        {self.prize_per_player=:,.0f}€
-        ============================='''
+        return f"""{type(self).__name__}
+=============================
+{self.num_players=}, 
+{self.num_active=}, 
+{self.num_eliminated=}, 
+{self.survival_ratio=:.2f}
+{self.prize_pool=:,.0f}€
+{self.prize_per_player=:,.0f}€
+============================="""
