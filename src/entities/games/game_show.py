@@ -5,7 +5,7 @@ from entities.player import Player
 
 class GameShow(Game):
 
-    def __init__(self, players: Set[Player], game_list: List[Type[Game]], max_prize_pool: int = 456_000_000):
+    def __init__(self, players: Set[Player], game_list: List[Type[Game]], max_prize_pool: int = 30_000_000):
         super().__init__(players=players)
         self.players = players
         self.game_list = game_list

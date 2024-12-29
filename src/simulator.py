@@ -1,4 +1,5 @@
 from typing import List
+import pickle
 
 from entities.games import RedLightGreenLight, SugarHoneycombs, TugOfWar, Marbles, GameShow, GlassStones
 from entities.games.squid_game import SquidGame
@@ -40,5 +41,6 @@ def analyse(game_shows: List[GameShow]):
     game_shows[0].games_played[0].plot_game()
 
 if __name__ == '__main__':
-    res = simulate(n_sims=1)
-    analyse(res)
+    res = simulate(n_sims=10_000)
+    with open('simulation.pkl', 'wb') as handle:
+        pickle.dump(res, handle, protocol=pickle.HIGHEST_PROTOCOL)

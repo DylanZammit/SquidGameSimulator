@@ -12,6 +12,7 @@ class GlassStones(Game):
         self.n_steps = n_steps
         self.time_limit_sec = time_limit_sec
         self.player_eliminated_step = {}
+        self.state_hist = []
 
     def play(self) -> None:
         shuffled_players = list(self.players)
@@ -28,4 +29,5 @@ class GlassStones(Game):
                     self.eliminate(player)
                     self.player_eliminated_step[player] = curr_step
                     break
+            self.state_hist.append(self)
             player_num += 1

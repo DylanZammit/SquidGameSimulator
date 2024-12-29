@@ -1,4 +1,4 @@
-from typing import Set, Union, Tuple, List
+from typing import Set, Union, Tuple
 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -14,6 +14,8 @@ class RedLightGreenLight(Game):
         self.walking_window_sec = time_limit_sec / n_stops / 2  # half of the time is spent standing still
         self.still_window_sec = self.walking_window_sec
         self.distance = distance
+        self.player_distance = {player: 0 for player in players}
+        self.state_hist = [self]
 
     def play(self):
         scale_factor = 0.1
@@ -33,6 +35,7 @@ class RedLightGreenLight(Game):
                 next_position = self.player_distance[player] + player.walking_speed * self.walking_window_sec
                 self.player_distance[player] = min(self.distance, next_position)
 
+            self.state_hist.append(self)
             i += 1
 
         slow_players = [player for player in self.active if self.player_distance[player] < self.distance]
