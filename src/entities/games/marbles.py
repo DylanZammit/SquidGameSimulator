@@ -1,7 +1,5 @@
 from typing import Set
-
 import numpy as np
-
 from entities.base_game import Game
 from entities.player import Player
 
