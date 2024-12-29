@@ -1,4 +1,4 @@
-from typing import Set
+from typing import Set, Union, Tuple, List
 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -33,14 +33,12 @@ class RedLightGreenLight(Game):
                 next_position = self.player_distance[player] + player.walking_speed * self.walking_window_sec
                 self.player_distance[player] = min(self.distance, next_position)
 
-            # self.plot_game()
             i += 1
 
         slow_players = [player for player in self.active if self.player_distance[player] < self.distance]
         self.eliminate(slow_players)
 
-
-    def plot_game(self):
+    def get_statuses(self) -> Union[Tuple, Tuple]:
         x_coords_alive = []
         y_coords_alive = []
 
@@ -57,6 +55,10 @@ class RedLightGreenLight(Game):
                 x_coords_dead.append(player_x)
                 y_coords_dead.append(player_y)
 
+        return (x_coords_alive, y_coords_alive), (x_coords_dead, y_coords_dead)
+
+    def plot_game(self) -> None:
+        (x_coords_alive, y_coords_alive), (x_coords_dead, y_coords_dead) = self.get_statuses()
         plt.scatter(x_coords_alive, y_coords_alive, c='g', s=10, marker='o')
         plt.scatter(x_coords_dead, y_coords_dead, c='r', s=10, marker='X')
         plt.xlim([0, 100])

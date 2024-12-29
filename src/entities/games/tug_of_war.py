@@ -35,4 +35,3 @@ class TugOfWar(Game):
             left_wins = np.random.rand() < 0.5
             team_loser = team_b if left_wins else team_a
             self.eliminate(team_loser.players)
-
