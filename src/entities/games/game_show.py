@@ -12,6 +12,12 @@ class GameShow(Game):
         self.eliminated = set()
         self.games_played = []
 
+    def fight(self):
+        pass
+
+    def vote(self):
+        pass
+
     def play(self):
         for MiniGame in self.game_list:
             g = MiniGame(players=self.active)
@@ -19,7 +25,7 @@ class GameShow(Game):
             g.play()
             self.active = g.active
             self.eliminated |= g.eliminated
-            # TODO: implement vote/murder change
-            # vote
-            # murder
+
+            self.vote()
+            self.fight()
             self.games_played.append(g)
