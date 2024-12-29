@@ -18,7 +18,9 @@ class GlassStones(Game):
         np.random.shuffle(shuffled_players)
 
         curr_step = 0
-        for player in shuffled_players:
+        player_num = 0
+        while curr_step < self.n_steps and self.num_active > 0:
+            player = shuffled_players[player_num]
             while curr_step < self.n_steps:
                 is_good_step = np.random.rand() < 0.5
                 curr_step += 1
@@ -26,6 +28,4 @@ class GlassStones(Game):
                     self.eliminate(player)
                     self.player_eliminated_step[player] = curr_step
                     break
-
-            if curr_step == self.n_steps:
-                break
+            player_num += 1
