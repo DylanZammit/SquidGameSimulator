@@ -1,5 +1,5 @@
 from typing import Set, Union, Tuple
-from copy import copy
+from copy import copy, deepcopy
 import numpy as np
 from matplotlib import pyplot as plt
 
@@ -15,13 +15,21 @@ class RedLightGreenLight(Game):
         self.still_window_sec = self.walking_window_sec
         self.distance = distance
         self.player_distance = {player: 0 for player in players}
-        self.state_hist = [self]
+        self.state_hist = []
+
+    def save_state(self):
+        self.state_hist.append({
+            'active': copy(self.active),
+            'eliminated': copy(self.eliminated),
+            'distances': copy(self.player_distance),
+        })
 
     def play(self):
         scale_factor = 0.1
         i = 0
         while len(self.active) and i < self.n_stops:
             active_players = self.active.copy()
+            self.save_state()
             for player in active_players:
                 if self.player_distance[player] >= self.distance:
                     continue
@@ -35,11 +43,11 @@ class RedLightGreenLight(Game):
                 next_position = self.player_distance[player] + player.walking_speed * self.walking_window_sec
                 self.player_distance[player] = min(self.distance, next_position)
 
-            self.state_hist.append(copy(self))
             i += 1
 
         slow_players = [player for player in self.active if self.player_distance[player] < self.distance]
         self.eliminate(slow_players)
+        self.save_state()
 
     def get_statuses(self) -> Union[Tuple, Tuple]:
         x_coords_alive = []
