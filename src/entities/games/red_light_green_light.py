@@ -8,7 +8,14 @@ from entities.player import Player
 
 
 class RedLightGreenLight(Game):
-    def __init__(self, players: Set[Player], time_limit_sec: int = 300, n_stops: int = 20, distance: int = 100):
+    def __init__(
+            self,
+            players: Set[Player],
+            time_limit_sec: int = 300,
+            n_stops: int = 20,
+            distance: int = 100,
+            save_hist: bool = True,
+    ):
         super().__init__(players=players)
         self.n_stops = n_stops
         self.walking_window_sec = time_limit_sec / n_stops / 2  # half of the time is spent standing still
@@ -16,6 +23,7 @@ class RedLightGreenLight(Game):
         self.distance = distance
         self.player_distance = {player: 0 for player in players}
         self.state_hist = []
+        self.save_hist = save_hist
 
     def save_state(self):
         self.state_hist.append({
@@ -29,7 +37,8 @@ class RedLightGreenLight(Game):
         i = 0
         while len(self.active) and i < self.n_stops:
             active_players = self.active.copy()
-            self.save_state()
+            if self.save_hist:
+                self.save_state()
             for player in active_players:
                 if self.player_distance[player] >= self.distance:
                     continue
@@ -47,7 +56,8 @@ class RedLightGreenLight(Game):
 
         slow_players = [player for player in self.active if self.player_distance[player] < self.distance]
         self.eliminate(slow_players)
-        self.save_state()
+        if self.save_hist:
+            self.save_state()
 
     def get_statuses(self) -> Union[Tuple, Tuple]:
         x_coords_alive = []
